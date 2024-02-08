@@ -1,0 +1,148 @@
+3.a.
+
+SELECT *
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+WHERE Eta > 29
+
+
+3.b.
+
+SELECT *
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+WHERE RedditoMensile > 800
+
+
+3.c.
+
+SELECT *
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+WHERE DetrazioneFiscale = 0
+
+
+3.d.
+
+SELECT *
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+WHERE DetrazioneFiscale = 1
+
+3.e.
+
+SELECT *
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+WHERE Cognome LIKE 'g%'
+ORDER BY Cognome 
+
+
+3.f.
+
+SELECT COUNT(*) AS NumeroTotaleImpiegati
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+
+
+3.g.
+
+SELECT SUM(RedditoMensile) AS TotaleReddito
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+
+
+
+3.h.
+
+SELECT AVG(RedditoMensile) AS MediaReddito
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+
+
+3.i.
+
+SELECT MAX(RedditoMensile) AS TotaleReddito
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+
+3.j.
+
+SELECT MIN(RedditoMensile) AS TotaleReddito
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+
+
+3.k.
+
+SELECT *
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+WHERE DataAssunzione BETWEEN '2007-01-01 08:00:00.000' AND '2008-01-01 08:00:00.000'
+
+3.l.
+
+SELECT IDImpiegato, Cognome , Nome , CodiceFiscale, Eta, RedditoMensile, DetrazioneFiscale, DataAssunzione, impiegato.IDImpiego, TipoImpiego
+FROM [EsercizioImpiegati].[dbo].[Impiegato] as impiegato
+INNER JOIN
+[EsercizioImpiegati].[dbo].[Impiego] as impiego ON
+impiegato.IDImpiego = impiego.IDImpiego
+
+
+3.m.
+
+SELECT AVG(Eta) as EtaMedia
+FROM [EsercizioImpiegati].[dbo].[Impiegato]
+
+
+
+
+4.a.
+
+CREATE PROCEDURE AggiungiImpiegato
+    @Cognome NVARCHAR(50),
+    @Nome NVARCHAR(50),
+    @CodcieFiscale NVARCHAR(16),
+    @Eta INT,
+    @RedditoMensile MONEY,
+    @DetrazioneFiscale BIT,
+    @DataAssunzione DATETIME,
+    @IDImpiego INT
+AS
+BEGIN
+    INSERT INTO Impiegato (Cognome, Nome, CodcieFiscale, eta, RedditoMensile, DetrazioneFiscale, DataAssunzione, IDImpiego)
+    VALUES (@Cognome, @Nome, @CodcieFiscale, @Eta, @RedditoMensile, @DetrazioneFiscale, @DataAssunzione, @IDImpiego)
+END
+
+
+
+
+4.b.
+
+
+
+CREATE PROCEDURE ModificaImpiegato
+    @IDImpiegato INT,
+    @Cognome NVARCHAR(50),
+    @Nome NVARCHAR(50),
+    @CodcieFiscale NVARCHAR(16),
+    @Eta INT,
+    @RedditoMensile MONEY,
+    @DetrazioneFiscale BIT,
+    @DataAssunzione DATETIME,
+    @IDImpiego INT
+AS
+BEGIN
+    UPDATE Impiegato
+    SET Cognome = @Cognome,
+        Nome = @Nome,
+        CodcieFiscale = @CodcieFiscale,
+        eta = @Eta,
+        RedditoMensile = @RedditoMensile,
+        DetrazioneFiscale = @DetrazioneFiscale,
+        DataAssunzione = @DataAssunzione,
+        IDImpiego = @IDImpiego
+    WHERE IDImpiego = @IDImpiegato
+END
+
+
+
+4.c.
+
+
+CREATE PROCEDURE EliminaImpiegato
+    @IDImpiegato INT
+AS
+BEGIN
+    DELETE FROM Impiegato WHERE IDImpiego = @IDImpiegato
+END
+
